@@ -9,20 +9,20 @@ We use AWS EC2 instances, but you can also setup the environment and run all exp
 
 
 ## Install CARLA
-- Install [CARLA 0.9.13 release](https://github.com/carla-simulator/carla/releases/tag/0.9.13) with additional maps.
+- Install [CARLA 0.9.13 release](https://github.com/carla-simulator/carla/releases/tag/0.9.13) with additional maps (do this inside your clone of this repo)
 ```bash
-mkdir ~/carla
-cd ~/carla
+mkdir $(pwd)/carla
+cd $(pwd)/carla
 wget https://carla-releases.s3.eu-west-3.amazonaws.com/Linux/CARLA_0.9.13.tar.gz
 tar -xvzf CARLA_0.9.13.tar.gz
-echo "export CARLA_ROOT=~/carla" >> ~/.bashrc  # Optional
+echo "export CARLA_ROOT=$(pwd)/carla" >> ~/.bashrc  # Optional, can use the setup_roach0913.sh script instead
 cd Import && wget https://carla-releases.s3.eu-west-3.amazonaws.com/Linux/AdditionalMaps_0.9.13.tar.gz
 cd .. && bash ImportAssets.sh
 rm CARLA_0.9.13.tar.gz Import/AdditionalMaps_0.9.13.tar.gz
 cd && source .bashrc  # Optional
 ```
 
- - Alternatively, we can use `Docker`, which will be our main use:
+ - In addition, pull the CARLA 0.9.13 Docker image to run the data collection phase:
 ```bash
 docker pull carlasim/carla:0.9.13
 ```

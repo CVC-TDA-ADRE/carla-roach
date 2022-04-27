@@ -6,7 +6,7 @@ data_collect () {
   wb_project=il_nocrash_roach \
   wb_group=bc_data \
   test_suites=nocrash_dense \
-  n_episodes=1 \
+  n_episodes=160 \
   dataset_root=~/datasets/roach_0913 \
   actors.hero.driver=ppo \
   agent.ppo.wb_run_path=iccv21-roach/trained-models/1929isj0 \
