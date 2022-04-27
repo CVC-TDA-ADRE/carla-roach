@@ -2,22 +2,22 @@
 
 # * To collect from Roach for the Leaderboard benchmark
 data_collect () {
-  python -u data_collect.py resume=true log_video=false save_to_wandb=true \
-  wb_project=il_leaderboard_roach \
+  python -u data_collect.py resume=true log_video=false save_to_wandb=false \
+  wb_project=il_nocrash_roach \
   wb_group=bc_data \
-  test_suites=lb_data \
-  n_episodes=160 \
-  dataset_root=/home/ubuntu/dataset/bc \
+  test_suites=nocrash_dense \
+  n_episodes=1 \
+  dataset_root=~/datasets/roach_0913 \
   actors.hero.driver=ppo \
   agent.ppo.wb_run_path=iccv21-roach/trained-models/1929isj0 \
   agent.ppo.wb_ckpt_step=null \
   agent/cilrs/obs_configs=central_rgb_wide \
   inject_noise=true \
-  actors.hero.terminal.kwargs.max_time=300 \
+  actors.hero.terminal.kwargs.max_time=4000 \
   actors.hero.terminal.kwargs.no_collision=true \
   actors.hero.terminal.kwargs.no_run_rl=false \
   actors.hero.terminal.kwargs.no_run_stop=false \
-  carla_sh_path=${CARLA_ROOT}/CarlaUE4.sh
+  carla_sh_path=CarlaUE4.sh
 }
 
 # * To collect from Autopilot for the NoCrash benchmark
@@ -42,7 +42,7 @@ data_collect () {
 # NO NEED TO MODIFY THE FOLLOWING
 # actiate conda env
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate carla
+conda activate roach
 
 # remove checkpoint files
 rm outputs/checkpoint.txt

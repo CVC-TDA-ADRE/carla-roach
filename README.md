@@ -1,4 +1,4 @@
-# CARLA-Roach
+# CARLA-Roach - CARLA 0.9.13
 
 <p align="center">
   <img width="50%" src="doc/teaser.png">
@@ -159,7 +159,6 @@ Most things are the same as collecting off-policy BC datasets. Here are some cha
 
 To train RL experts, use `run/train_rl.sh` and modify the arguments to select different settings.
 We recommend to use `g4dn.4xlarge` for training the RL experts, you will need around 50 GB free disk space for videos and checkpoints.
-We train RL experts on CARLA 0.9.10.1 because 0.9.11 crashes more often for unknown reasons. 
 
 ## Train IL Agents
 

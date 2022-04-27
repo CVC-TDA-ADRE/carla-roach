@@ -45,7 +45,7 @@ data_collect_dagger () {
 # NO NEED TO MODIFY THE FOLLOWING
 # actiate conda env
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate carla
+conda activate roach
 
 # remove checkpoint files
 rm outputs/checkpoint.txt

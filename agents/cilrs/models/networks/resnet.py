@@ -71,12 +71,7 @@ class ResNet(nn.Module):
         self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
         self.avgpool = nn.AvgPool2d(2, stride=0)
 
-        # TODO: THis is a super hardcoding ..., in order to fit my image size on resnet
-        # if block.__name__ == 'Bottleneck':
-        #     self.fc = nn.Linear(6144, num_classes)  # 6144 original,
-        # else:
-        #     self.fc = nn.Linear(1536, num_classes)  # 1536 original, 8192, 9216
-
+        # We will have inputs of different sizes, so calculate the final shape with no_grad:
         with th.no_grad():
             x = th.zeros(1, im_channels, im_h, im_w)
             x = self.conv1(x)

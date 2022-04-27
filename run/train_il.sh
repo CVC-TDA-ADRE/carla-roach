@@ -53,9 +53,9 @@ cache_dir=${CACHE_DIR}
 # }
 
 # NO NEED TO MODIFY THE FOLLOWING
-# actiate conda env
+# activate conda env
 source ~/miniconda3/etc/profile.d/conda.sh
-conda activate carla
+conda activate roach
 
 NODE_ROOT=/home/ubuntu/tmp_data
 mkdir -p "${NODE_ROOT}"

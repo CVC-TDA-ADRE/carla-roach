@@ -15,7 +15,7 @@ def kill_carla():
     log.info("Kill Carla Servers!")
 
 
-class CarlaServerManager():
+class CarlaServerManager:
     def __init__(self, carla_sh_str, port=2000, configs=None, t_sleep=5):
         self._carla_sh_str = carla_sh_str
         # self._root_save_dir = root_save_dir
@@ -40,8 +40,8 @@ class CarlaServerManager():
     def start(self):
         kill_carla()
         for cfg in self.env_configs:
-            cmd = f'CUDA_VISIBLE_DEVICES={cfg["gpu"]} bash {self._carla_sh_str} ' \
-                f'-fps=10 -quality-level=Epic -carla-rpc-port={cfg["port"]}'
+            cmd = f'docker run --gpus {cfg["gpu"]} --net=host -v /tmp/.X11-unix:/tmp/.X11-unix:rw carlasim/carla:0.9.13' \
+                  f' /bin/bash {self._carla_sh_str} -RenderOffScreen -nosound -fps=10 -quality-level=Low -carla-rpc-port={cfg["port"]}'
             #     f'-fps=10 -carla-server -opengl -carla-rpc-port={cfg["port"]}'
             log.info(cmd)
             # log_file = self._root_save_dir / f'server_{cfg["port"]}.log'
