@@ -1,7 +1,9 @@
+import string
 import subprocess
 import os
 import time
 from omegaconf import OmegaConf
+import random
 # os.environ.get('CUDA_VISIBLE_DEVICES')
 
 import logging
@@ -21,6 +23,7 @@ class CarlaServerManager:
         # self._root_save_dir = root_save_dir
         self._t_sleep = t_sleep
         self.env_configs = []
+        self._docker_id = ''
 
         if configs is None:
             cfg = {
@@ -38,15 +41,20 @@ class CarlaServerManager:
                     port += 5
 
     def start(self):
-        kill_carla()
+        # kill_carla()
+        self._docker_id = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
         for cfg in self.env_configs:
-            cmd = f'docker run --gpus {cfg["gpu"]} --net=host -v /tmp/.X11-unix:/tmp/.X11-unix:rw carlasim/carla:0.9.13' \
-                  f' /bin/bash {self._carla_sh_str} -RenderOffScreen -nosound -fps=10 -quality-level=Low -carla-rpc-port={cfg["port"]}'
-            #     f'-fps=10 -carla-server -opengl -carla-rpc-port={cfg["port"]}'
+            # Temporary config file
+            my_env = os.environ.copy()
+            my_env["NV_GPU"] = str(cfg['gpu'])
+            cmd = ['docker', 'run', '--name', self._docker_id, '--rm', '-d', '-p',
+                   f'{cfg["port"]}-{cfg["port"]+2}:{cfg["port"]}-{cfg["port"]+2}', '--gpus', f'device={cfg["gpu"]}',
+                   '-it', 'carlasim/carla:0.9.13', '/bin/bash', './CarlaUE4.sh',
+                   f'-quality-level=Low', '-RenderOffScreen', '-nosound', f'-carla-port={cfg["port"]}']
             log.info(cmd)
             # log_file = self._root_save_dir / f'server_{cfg["port"]}.log'
             # server_process = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid, stdout=open(log_file, "w"))
-            server_process = subprocess.Popen(cmd, shell=True, preexec_fn=os.setsid)
+            server_process = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, env=my_env)
         time.sleep(self._t_sleep)
 
     def stop(self):
